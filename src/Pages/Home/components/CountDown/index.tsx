@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { CountDownContainer, Separator } from './styles'
 import { differenceInSeconds } from 'date-fns'
-import { CyclesContext } from '../..'
+import { CyclesContext } from '../../../../contexts/CyclesContext'
 
 export function Countdown() {
   const {
@@ -36,7 +36,13 @@ export function Countdown() {
     return () => {
       clearInterval(interval)
     }
-  }, [activeCycle, activeCycleId, totalSeconds, markCurrentCycleAsFinished])
+  }, [
+    activeCycle,
+    activeCycleId,
+    totalSeconds,
+    markCurrentCycleAsFinished,
+    setSecondsPassed,
+  ])
 
   // Calcula os segundos restantes do ciclo ativo
   const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0
