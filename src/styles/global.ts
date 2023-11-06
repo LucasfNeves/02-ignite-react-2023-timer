@@ -7,6 +7,20 @@ export const GlobalStyle = createGlobalStyle`
         box-sizing: border-box; 
     }
 
+    ::-webkit-scrollbar{
+    width: 7px;
+   
+}
+  
+    ::-webkit-scrollbar-track{
+        background: var(--gray-900);
+    }
+    
+    ::-webkit-scrollbar-thumb{
+        background: ${(props) => props.theme['gray-700']};
+        border-radius: 10px;
+    }
+
     body {
         /*
          * Buscando variaveis de cores definidas nos temas

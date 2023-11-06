@@ -1,17 +1,21 @@
-import { createContext, useState } from 'react'
+import {
+  ReactNode,
+  createContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react'
+import { Cycle, cyclesReducers } from '../reducers/cycles/reducers'
+import {
+  addNewCycleAction,
+  interruptCurrentCycleAction,
+  markCurrentCycleAsFinishedAction,
+} from '../reducers/cycles/actions'
+import { differenceInSeconds } from 'date-fns'
 
 interface CreateCycleData {
   task: string
   minutesAmount: number
-}
-
-interface Cycle {
-  id: string
-  task: string
-  minutesAmount: number
-  startDate: Date
-  interruptedDate?: Date
-  finishedDate?: Date
 }
 
 interface CyclesContextType {
@@ -25,36 +29,61 @@ interface CyclesContextType {
   interruptCurrentCycled: () => void
 }
 
-interface CyclesContextProviderProps {
-  children: React.ReactNode
-}
-
 export const CyclesContext = createContext({} as CyclesContextType)
+
+interface CyclesContextProviderProps {
+  children: ReactNode
+}
 
 export function CyclesContextProvider({
   children,
 }: CyclesContextProviderProps) {
   // Estado dos ciclos
-  const [cycles, setCycles] = useState<Cycle[]>([])
+  const [cyclesState, dispatch] = useReducer(
+    cyclesReducers,
 
-  // Estado do ID do ciclo ativo
-  const [activeCycleId, setActiveCycleId] = useState<string | null>(null)
+    {
+      cycles: [],
+      activeCycleId: null,
+    },
+    (initialState) => {
+      const storageStateAsJSON = localStorage.getItem(
+        '@ignite-timer:cycles-state-1.0.0',
+      )
+      if (storageStateAsJSON) {
+        return JSON.parse(storageStateAsJSON)
+      }
 
-  const [amountSecondsPassed, setAmountSecondsPassed] = useState(0)
+      return initialState
+    },
+  )
 
+  // Controla o cycleID pelo useReducer do cyclesState
+  const { cycles, activeCycleId } = cyclesState
   // Encontra o ciclo ativo com base no ID do ciclo ativo
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
+
+  const [amountSecondsPassed, setAmountSecondsPassed] = useState(() => {
+    if (activeCycle) {
+      return differenceInSeconds(new Date(), new Date(activeCycle.startDate))
+    }
+    return 0
+  })
+
+  useEffect(() => {
+    const sateJSON = JSON.stringify(cyclesState)
+
+    localStorage.setItem('@ignite-timer:cycles-state-1.0.0', sateJSON)
+  }, [cyclesState])
 
   function setSecondsPassed(seconds: number) {
     setAmountSecondsPassed(seconds)
   }
 
-  /**
-   * Manipula a criação de um novo ciclo.
-   * @param {object} data - Os dados para o novo ciclo.
-   * @param {string} data.task - A tarefa para o novo ciclo.
-   * @param {number} data.minutesAmount - A quantidade de minutos para o novo ciclo.
-   */
+  function markCurrentCycleAsFinished() {
+    dispatch(markCurrentCycleAsFinishedAction())
+  }
+
   function creatNewCycle(data: CreateCycleData) {
     // Cria um id único baseado no tempo e data atual
     const id = String(new Date().getTime())
@@ -65,42 +94,14 @@ export function CyclesContextProvider({
       minutesAmount: data.minutesAmount,
       startDate: new Date(),
     }
-    /**
-     * Define o estado dos ciclos adicionando o novo ciclo ao estado existente.
-     * @param {array} state - O estado atual dos ciclos.
-     * @returns {array} - O estado atualizado dos ciclos.
-     */
-    setCycles((state) => [...state, newCycle])
 
-    // Define o id do ciclo ativo para o id recém-criado
-    setActiveCycleId(id)
+    dispatch(addNewCycleAction(newCycle))
 
     setAmountSecondsPassed(0)
   }
 
   function interruptCurrentCycled() {
-    setCycles((state) =>
-      state.map((cycle) => {
-        if (cycle.id === activeCycleId) {
-          return { ...cycle, interruptedDate: new Date() }
-        } else {
-          return cycle
-        }
-      }),
-    )
-    setActiveCycleId(null)
-  }
-
-  function markCurrentCycleAsFinished() {
-    setCycles((state) =>
-      state.map((cycle) => {
-        if (cycle.id === activeCycleId) {
-          return { ...cycle, finishedDate: new Date() }
-        } else {
-          return cycle
-        }
-      }),
-    )
+    dispatch(interruptCurrentCycleAction())
   }
 
   return (
