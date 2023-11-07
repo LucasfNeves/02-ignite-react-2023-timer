@@ -39,5 +39,21 @@ Para executar o projeto em sua máquina local, siga estas etapas:
 1. Clone o repositório:
 
    ```bash
-   git clone git@github.com:seu-usuario/seu-repositorio.git
+   git@github.com:LucasfNeves/Projeto-02-ignite-timer.git
+   ```
+   
+2. Navegue até o diretório do projeto:
+  ```bash
+  cd seu-repositorio
+  ```
+
+3. Instale as dependências:
+  ```bash
+  npm install
+  ```
+
+4. Inicie a aplicação:
+  ```bash
+  npm run dev
+  ```
 
