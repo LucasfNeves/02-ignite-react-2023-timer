@@ -38,9 +38,9 @@ Para executar o projeto em sua máquina local, siga estas etapas:
 
 1. Clone o repositório:
 
-   ```bash
-   git@github.com:LucasfNeves/Projeto-02-ignite-timer.git
-   ```
+```bash
+git@github.com:LucasfNeves/Projeto-02-ignite-timer.git
+```
    
 2. Navegue até o diretório do projeto:
   ```bash
