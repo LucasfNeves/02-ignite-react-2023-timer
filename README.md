@@ -6,7 +6,7 @@ Bem-vindo ao projeto Ignite Timer, desenvolvido durante o curso Ignite da Rocket
 ## Acesse o Projeto:
 Você pode acessar o projeto por meio do link a seguir:
 
-🚀 [Clique aqui e acesse o Projeto](https://seu-link-para-o-projeto.com/)
+🚀 [Clique aqui e acesse o Projeto](https://projeto-02-ignite-timer.vercel.app/)
 
 ## Tecnologias Utilizadas
 O projeto utiliza uma variedade de tecnologias para proporcionar uma experiência de aprendizado abrangente, incluindo:
