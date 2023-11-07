@@ -44,7 +44,7 @@ git@github.com:LucasfNeves/Projeto-02-ignite-timer.git
    
 2. Navegue até o diretório do projeto:
   ```bash
-  cd seu-repositorio
+  cd Projeto-02-ignite-timer
   ```
 
 3. Instale as dependências:
