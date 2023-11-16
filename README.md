@@ -3,11 +3,6 @@
 ## Visão Geral
 Bem-vindo ao projeto Ignite Timer, desenvolvido durante o curso Ignite da RocketSeat. Este projeto é um sistema de gerenciamento de tempo que inclui um cronômetro de Pomodoro e uma segunda página que exibe uma lista de seus ciclos Pomodoro. O método Pomodoro é uma técnica de gerenciamento de tempo que envolve a divisão do trabalho em períodos de foco intenso, seguidos de pausas.
 
-## Acesse o Projeto:
-Você pode acessar o projeto por meio do link a seguir:
-
-🚀 [Clique aqui e acesse o Projeto](https://projeto-02-ignite-timer.vercel.app/)
-
 ## Tecnologias Utilizadas
 O projeto utiliza uma variedade de tecnologias para proporcionar uma experiência de aprendizado abrangente, incluindo:
 
